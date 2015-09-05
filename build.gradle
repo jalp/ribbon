@@ -1,0 +1,38 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+allprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.reactivex:rxjava:1.0.12'
+
+    compile 'com.netflix.ribbon:ribbon-eureka:2.1.0'
+    compile 'com.netflix.ribbon:ribbon-loadbalancer:2.1.0'
+    compile 'com.netflix.ribbon:ribbon-core:2.1.0'
+    compile 'com.netflix.ribbon:ribbon:2.1.0'
+
+    compile ('org.elasticsearch:elasticsearch:1.5.2'){
+        exclude module: 'asm'
+        exclude module: 'asm-commons'
+    }
+
+    testCompile "org.mockito:mockito-all:1.9.5"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task runApp (dependsOn: [classes], type: JavaExec) {
+    group = "run"
+    description = "Run ribbon application"
+
+    main = "es.javi.netflix.Ribbon"
+    classpath = sourceSets.main.runtimeClasspath
+}
